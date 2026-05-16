@@ -6,7 +6,7 @@ html, body {
     margin:0;
     padding:0;
     height:100%;
-    background: #293241;
+    background: #111419;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -20,3 +20,21 @@ html, body {
     transform: scale(3);
     image-rendering: pixelated;
 }
+
+.character {}
+
+.character_sprite{}
+
+.character_shadow {}
+
+.character_name {}
+
+.character_name_container {}
+
+.character_coins {}
+
+.character_you_arrow {}
+
+.grid-cell {}
+
+.you {}
