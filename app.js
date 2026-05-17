@@ -148,6 +148,11 @@ onValue(allPlayersRef, (snapshot) => {
 
   })
 
+  onChildRemoved(allPlayersRef, (snapshot) => {
+    const removedPlayer = snapshot.val();
+    gameContainer.removeChild(playerElements[removedPlayer.id]);
+    delete playerElements[removedPlayer.id];})
+
 }
 
 function randomFromArray(arr) {

@@ -8,7 +8,7 @@ html, body {
     margin:0;
     padding:0;
     height:100%;
-    background: #02182b;
+    background: url(/assets/background.png);
     display:flex;
     justify-content: center;
     align-items: center;
