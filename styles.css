@@ -20,7 +20,7 @@ html, body {
     position: relative;
     width: 240px;
     height: 208px;
-    background: url(/assets/background.png) no-repeat no-repeat;
+    background: url(/assets/bg.png) no-repeat no-repeat;
     transform: scale(3);
     image-rendering: pixelated;
 }
@@ -63,7 +63,7 @@ html, body {
 .character_name_container {
       position: absolute;
   top: -12px;
-  left: -5px;
+  left: -20px;
   font-size: 5px;
   padding: 1px 2px 1px;
   border-radius: 3px;
@@ -83,10 +83,11 @@ html, body {
 .character_you_arrow {
     display: none;
     position: absolute;
-    top:-18px;
-    left:5px;
-    width:7px;
-    height:5px;
+    top:-55px;
+    left:0px;
+    width: 40px;
+    height:40px;
+    transform: scaleY(-1);
     background: url(/assets/arrow.png) no-repeat no-repeat;
 }
 

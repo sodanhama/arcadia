@@ -20,9 +20,13 @@ import {
   onChildAdded
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
 
+import { keyPressListener } from "./keyPressListener.js";
+
 let playerID
 let playerRef
+let players = {}
 let playerElements = {}
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyByyBdiCaouJ9AFsMVkKis2IXqDk-MHZmE",
@@ -57,8 +61,8 @@ onAuthStateChanged(auth, (user) => {
       name: name,
       direction:randomFromArray(["left", "right"]),
       color: randomFromArray(playerColors),
-      x:15,
-      y:12,
+      x:2,
+      y:2,
       coins:0,
     })
 
@@ -71,11 +75,47 @@ onAuthStateChanged(auth, (user) => {
 
 initGame();
 
+function handleArrowPress(xChange, yChange) {
+  const newX = players[playerID].x + xChange;
+  const newY = players[playerID].y + yChange;
+  if (true) {
+    players[playerID].x = newX;
+    players[playerID].y = newY;
+    if (xChange === -1) {
+      players[playerID].direction = "left";
+    } else if (xChange === 1) {
+      players[playerID].direction = "right";
+    }
+set(playerRef, players[playerID]);  }
+}
+
 function initGame() {
+  new keyPressListener("ArrowUp", () => handleArrowPress(0, -1));
+  new keyPressListener("ArrowDown", () => handleArrowPress(0, 1));
+  new keyPressListener("ArrowLeft", () => handleArrowPress(-1, 0));
+  new keyPressListener("ArrowRight", () => handleArrowPress(1, 0));
   const allPlayersRef = ref(db, "players")
   const allCoinsRef = ref(db, "coins")
 
-  onValue(allPlayersRef, (snapshot) => {})
+onValue(allPlayersRef, (snapshot) => {
+  players = snapshot.val() || {};
+
+  Object.keys(players).forEach((key) => {
+    const characterState = players[key];
+    let el = playerElements[key];
+
+    if (el) {
+      el.querySelector(".character_name").innerText = characterState.name;
+      el.querySelector(".character_coins").innerText = characterState.coins;
+      el.setAttribute("data-color", characterState.color);
+      el.setAttribute("data-direction", characterState.direction);
+      
+      const left = 16 * characterState.x + "px";
+      const top = (16 * characterState.y - 4) + "px";
+      el.style.transform = `translate3d(${left}, ${top}, 0)`;
+    }
+  }); 
+});
   onChildAdded(allPlayersRef, (snapshot) => {
     const addedPlayer = snapshot.val();
     const characterElement = document.createElement("div");
