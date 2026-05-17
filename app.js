@@ -55,10 +55,10 @@ onAuthStateChanged(auth, (user) => {
     set(playerRef, {
       id: playerID,
       name: name,
-      direction:"right",
+      direction:randomFromArray(["left", "right"]),
       color: randomFromArray(playerColors),
-      x:0,
-      y:0,
+      x:15,
+      y:12,
       coins:0,
     })
 

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Jersey+20&display=swap');
+
 * {
     box-sizing: border-box;
 }
@@ -6,10 +8,12 @@ html, body {
     margin:0;
     padding:0;
     height:100%;
-    background: #111419;
+    background: #02182b;
     display:flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Figtree', sans-serif;
+
 }
 
 .game-container {
@@ -21,20 +25,83 @@ html, body {
     image-rendering: pixelated;
 }
 
-.character {}
+.character {
+    transition: transform 0.4s
+}
 
-.character_sprite{}
+.character_sprite{
+    overflow:hidden;
+    top:-3px;
+    background: url(/assets/character.png);
+}
+
+.character[data-direction="right"] .character_sprite {
+    background-position-x: 16px;
+}
+
+.character[data-color="blue"] .character_sprite {
+    background-position-y: -16px;
+}
+
+.character[data-color="green"] .character_sprite {
+    background-position-y: -32px;
+}
+
+.character[data-color="yellow"] .character_sprite {
+    background-position-y: -48px;
+}
+
+.character[data-color="purple"] .character_sprite {
+    background-position-y: -64px;
+}
+
 
 .character_shadow {}
 
 .character_name {}
 
-.character_name_container {}
+.character_name_container {
+      position: absolute;
+  top: -12px;
+  left: -5px;
+  font-size: 5px;
+  padding: 1px 2px 1px;
+  border-radius: 3px;
+  background: #333;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
 
-.character_coins {}
+.character_coins {
+    margin-left: 1px;
+    color: gold;
+    font-family:'Bitcount Grid Double', monospace;
+}
 
-.character_you_arrow {}
+.character_you_arrow {
+    display: none;
+    position: absolute;
+    top:-18px;
+    left:5px;
+    width:7px;
+    height:5px;
+    background: url(/assets/arrow.png) no-repeat no-repeat;
+}
 
-.grid-cell {}
+.character.you {
+    z-index: 1;
+}
+
+.character.you .character_you_arrow {
+    display: block;
+}
+
+.grid-cell {
+    position:absolute;
+    width: 16px;
+    height: 16px;
+}
 
 .you {}
