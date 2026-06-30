@@ -1,16 +1,10 @@
-  // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-// Auth specific functions come from firebase-auth.js
 import {
   getAuth,
   signInAnonymously,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-// Database specific functions come from firebase-database.js
 import { 
   getDatabase, 
   ref, 
@@ -61,8 +55,8 @@ onAuthStateChanged(auth, (user) => {
       name: name,
       direction:randomFromArray(["left", "right"]),
       color: randomFromArray(playerColors),
-      x:2,
-      y:2,
+      x:0,
+      y:0,
       coins:0,
     })
 
@@ -91,9 +85,13 @@ set(playerRef, players[playerID]);  }
 
 function initGame() {
   new keyPressListener("ArrowUp", () => handleArrowPress(0, -1));
+  new keyPressListener("KeyW", () => handleArrowPress(0, -1));
   new keyPressListener("ArrowDown", () => handleArrowPress(0, 1));
+  new keyPressListener("KeyS", () => handleArrowPress(0, 1));
   new keyPressListener("ArrowLeft", () => handleArrowPress(-1, 0));
+  new keyPressListener("KeyA", () => handleArrowPress(-1, 0));
   new keyPressListener("ArrowRight", () => handleArrowPress(1, 0));
+  new keyPressListener("KeyD", () => handleArrowPress(1, 0));
   const allPlayersRef = ref(db, "players")
   const allCoinsRef = ref(db, "coins")
 
@@ -162,4 +160,3 @@ function randomFromArray(arr) {
 function getKeyString(x, y) {
   return `${x}x${y}`;
 }
-
