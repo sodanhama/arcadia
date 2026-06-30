@@ -48,7 +48,7 @@ onAuthStateChanged(auth, (user) => {
     playerID = user.uid;
     playerRef = ref(db, `players/${playerID}`);
 
-    const name = `${first} ${last}`;
+    const name = prompt("Enter your name:") || `${first} ${last}`;
 
     set(playerRef, {
       id: playerID,
@@ -104,7 +104,6 @@ onValue(allPlayersRef, (snapshot) => {
 
     if (el) {
       el.querySelector(".character_name").innerText = characterState.name;
-      el.querySelector(".character_coins").innerText = characterState.coins;
       el.setAttribute("data-color", characterState.color);
       el.setAttribute("data-direction", characterState.direction);
       
@@ -126,15 +125,12 @@ onValue(allPlayersRef, (snapshot) => {
       <div class="character_sprite grid-cell"></div>
       <div class="character_name_container">
       <span class="character_name"></span>
-      <span class="character_coins">0</span>
       </div>
-      <div class="character_you_arrow"></div>
       `)
 
       playerElements[addedPlayer.id] = characterElement;
 
       characterElement.querySelector(".character_name").innerText = addedPlayer.name;
-      characterElement.querySelector(".character_coins").innerText = addedPlayer.coins;
       characterElement.setAttribute("data-color", addedPlayer.color);
       characterElement.setAttribute("data-direction", addedPlayer.direction);
       const left = 16 * addedPlayer.x + "px";
