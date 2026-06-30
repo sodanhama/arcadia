@@ -2,13 +2,15 @@
 
 * {
     box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #415D43 #415D43;
 }
 
 html, body {
     margin:0;
     padding:0;
     height:100%;
-    background: url(/assets/background.png);
+    background: #415D43;
     display:flex;
     justify-content: center;
     align-items: center;
@@ -20,8 +22,16 @@ html, body {
     position: relative;
     width: 240px;
     height: 208px;
-    background: url(/assets/bg.png) no-repeat no-repeat;
+    background: #415D43;
     transform: scale(3);
+    image-rendering: pixelated;
+}
+
+.bush {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: url(/assets/bush.png) no-repeat;
     image-rendering: pixelated;
 }
 
@@ -63,7 +73,7 @@ html, body {
 .character_name_container {
       position: absolute;
   top: -12px;
-  left: -20px;
+  left: -10px;
   font-size: 5px;
   padding: 1px 2px 1px;
   border-radius: 3px;

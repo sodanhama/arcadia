@@ -1,23 +1,19 @@
-  // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Auth specific functions come from firebase-auth.js
 import {
   getAuth,
   signInAnonymously,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-// Database specific functions come from firebase-database.js
 import { 
   getDatabase, 
   ref, 
   set,
   onDisconnect,
   onValue,
-  onChildAdded
+  onChildAdded,
+  onChildRemoved
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
 
 import { keyPressListener } from "./keyPressListener.js";
@@ -41,8 +37,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-const first = randomFromArray(["Sam", "Alex", "Charlie", "Jordan", "Taylor"]);
-const last = randomFromArray(["Smith", "Johnson", "Brown", "Taylor", "Anderson"]);
 const playerColors = ["red", "blue", "green", "yellow", "purple"];
 const gameContainer = document.querySelector(".game-container");
 
@@ -54,7 +48,7 @@ onAuthStateChanged(auth, (user) => {
     playerID = user.uid;
     playerRef = ref(db, `players/${playerID}`);
 
-    const name = `${first} ${last}`;
+    const name = prompt("Enter your name:") || `Guest${Math.floor(Math.random() * 1000)}`;
 
     set(playerRef, {
       id: playerID,
@@ -74,6 +68,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 initGame();
+spawnBushes();
 
 function handleArrowPress(xChange, yChange) {
   const newX = players[playerID].x + xChange;
@@ -87,6 +82,19 @@ function handleArrowPress(xChange, yChange) {
       players[playerID].direction = "right";
     }
 set(playerRef, players[playerID]);  }
+}
+
+function spawnBushes(count = 15) {
+  const mapWidth = window.innerWidth / 3;
+  const mapHeight = window.innerHeight / 3;
+
+  for (let i = 0; i < count; i++) {
+    const bush = document.createElement("div");
+    bush.classList.add("bush");
+    bush.style.left = Math.floor(Math.random() * mapWidth) + "px";
+    bush.style.top = Math.floor(Math.random() * mapHeight) + "px";
+    gameContainer.appendChild(bush);
+  }
 }
 
 function initGame() {
