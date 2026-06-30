@@ -11,7 +11,8 @@ import {
   set,
   onDisconnect,
   onValue,
-  onChildAdded
+  onChildAdded,
+  onChildRemoved
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
 
 import { keyPressListener } from "./keyPressListener.js";
