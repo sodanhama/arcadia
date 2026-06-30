@@ -1,19 +1,23 @@
+  // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+// Auth specific functions come from firebase-auth.js
 import {
   getAuth,
   signInAnonymously,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
+// Database specific functions come from firebase-database.js
 import { 
   getDatabase, 
   ref, 
   set,
   onDisconnect,
   onValue,
-  onChildAdded,
-  onChildRemoved
+  onChildAdded
 } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-database.js";
 
 import { keyPressListener } from "./keyPressListener.js";
@@ -37,6 +41,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+const first = randomFromArray(["Sam", "Alex", "Charlie", "Jordan", "Taylor"]);
+const last = randomFromArray(["Smith", "Johnson", "Brown", "Taylor", "Anderson"]);
 const playerColors = ["red", "blue", "green", "yellow", "purple"];
 const gameContainer = document.querySelector(".game-container");
 
@@ -48,15 +54,15 @@ onAuthStateChanged(auth, (user) => {
     playerID = user.uid;
     playerRef = ref(db, `players/${playerID}`);
 
-    const name = prompt("Enter your name:") || `Guest${Math.floor(Math.random() * 1000)}`;
+    const name = `${first} ${last}`;
 
     set(playerRef, {
       id: playerID,
       name: name,
       direction:randomFromArray(["left", "right"]),
       color: randomFromArray(playerColors),
-      x:0,
-      y:0,
+      x:2,
+      y:2,
       coins:0,
     })
 
@@ -68,7 +74,6 @@ onAuthStateChanged(auth, (user) => {
 });
 
 initGame();
-spawnBushes();
 
 function handleArrowPress(xChange, yChange) {
   const newX = players[playerID].x + xChange;
@@ -84,28 +89,11 @@ function handleArrowPress(xChange, yChange) {
 set(playerRef, players[playerID]);  }
 }
 
-function spawnBushes(count = 15) {
-  const mapWidth = window.innerWidth / 3;
-  const mapHeight = window.innerHeight / 3;
-
-  for (let i = 0; i < count; i++) {
-    const bush = document.createElement("div");
-    bush.classList.add("bush");
-    bush.style.left = Math.floor(Math.random() * mapWidth) + "px";
-    bush.style.top = Math.floor(Math.random() * mapHeight) + "px";
-    gameContainer.appendChild(bush);
-  }
-}
-
 function initGame() {
   new keyPressListener("ArrowUp", () => handleArrowPress(0, -1));
-  new keyPressListener("KeyW", () => handleArrowPress(0, -1));
   new keyPressListener("ArrowDown", () => handleArrowPress(0, 1));
-  new keyPressListener("KeyS", () => handleArrowPress(0, 1));
   new keyPressListener("ArrowLeft", () => handleArrowPress(-1, 0));
-  new keyPressListener("KeyA", () => handleArrowPress(-1, 0));
   new keyPressListener("ArrowRight", () => handleArrowPress(1, 0));
-  new keyPressListener("KeyD", () => handleArrowPress(1, 0));
   const allPlayersRef = ref(db, "players")
   const allCoinsRef = ref(db, "coins")
 
