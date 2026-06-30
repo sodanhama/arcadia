@@ -9,6 +9,7 @@ import {
   getDatabase, 
   ref, 
   set,
+  push,
   onDisconnect,
   onValue,
   onChildAdded,
@@ -36,6 +37,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+const messagesRef = ref(db, "messages");
+let bubbleTimers = {};
 const first = randomFromArray(["Sam", "Alex", "Charlie", "Jordan", "Taylor"]);
 const last = randomFromArray(["Smith", "Johnson", "Brown", "Taylor", "Anderson"]);
 const playerColors = ["red", "blue", "green", "yellow", "purple"];
@@ -69,7 +72,69 @@ onAuthStateChanged(auth, (user) => {
 });
 
 initGame();
+initChat();
+function initChat() {
+  const chatInput = document.getElementById("chat-input");
 
+  document.addEventListener("keydown", (e) => {
+  if (e.code === "KeyT" && document.activeElement !== chatInput) {
+    e.preventDefault();
+    chatInput.focus();
+  }
+});
+
+  chatInput.addEventListener("keydown", (e) => {
+    e.stopPropagation();
+    if (e.code === "Enter") {
+      const text = chatInput.value.trim();
+      if (!text) return;
+      push(messagesRef, {
+        playerID: playerID,
+        name: players[playerID]?.name || "Unknown",
+        text: text
+      });
+      chatInput.value = "";
+    }
+  });
+
+  onChildAdded(messagesRef, (snapshot) => {
+    const message = snapshot.val();
+    addChatLogLine(message);
+    showBubble(message);
+  });
+}
+
+function addChatLogLine(message) {
+  const chatLog = document.getElementById("chat-log");
+  const line = document.createElement("div");
+  line.classList.add("chat-message");
+
+  const author = document.createElement("span");
+  author.classList.add("chat-author");
+  author.innerText = `${message.name}: `;
+
+  const body = document.createElement("span");
+  body.innerText = message.text;
+
+  line.appendChild(author);
+  line.appendChild(body);
+  chatLog.appendChild(line);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+function showBubble(message) {
+  const el = playerElements[message.playerID];
+  if (!el) return;
+
+  const bubble = el.querySelector(".character_bubble");
+  bubble.innerText = message.text;
+  bubble.classList.add("visible");
+
+  clearTimeout(bubbleTimers[message.playerID]);
+  bubbleTimers[message.playerID] = setTimeout(() => {
+    bubble.classList.remove("visible");
+  }, 5000);
+}
 function handleArrowPress(xChange, yChange) {
   const newX = players[playerID].x + xChange;
   const newY = players[playerID].y + yChange;
