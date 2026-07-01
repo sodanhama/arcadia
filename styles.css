@@ -23,7 +23,7 @@ html, body {
     position: relative;
     width: 240px;
     height: 208px;
-    background: url(/assets/bg.png) no-repeat no-repeat;
+    background: #415D43;
     transform: scale(3);
     image-rendering: pixelated;
 }
@@ -149,4 +149,21 @@ html, body {
 
 #chat-input:focus {
   background: rgba(0, 0, 0, 0.7);
+}
+
+.character {
+  transition: transform 0.4s;
+}
+
+.character_body {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  animation: bob 0.4s steps(2, end) infinite alternate;
+}
+
+@keyframes bob {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(1px); }
+  100% { transform: translateY(2px); }
 }

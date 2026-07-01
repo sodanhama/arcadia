@@ -94,6 +94,7 @@ function initChat() {
         text: text
       });
       chatInput.value = "";
+      chatInput.blur();
     }
   });
 
@@ -187,12 +188,15 @@ onValue(allPlayersRef, (snapshot) => {
       characterElement.classList.add("you");
     }
     characterElement.innerHTML = (`
+      <div class="character_body">
       <div class="character_shadow grid-cell"></div>
       <div class="character_sprite grid-cell"></div>
       <div class="character_name_container">
       <span class="character_name"></span>
       </div>
-      `)
+      <div class="character_bubble"></div>
+      </div>
+`)
 
       playerElements[addedPlayer.id] = characterElement;
 
