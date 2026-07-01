@@ -187,15 +187,14 @@ onValue(allPlayersRef, (snapshot) => {
     if (addedPlayer.id === playerID) {
       characterElement.classList.add("you");
     }
-    characterElement.innerHTML = (`
-      <div class="character_body">
-      <div class="character_shadow grid-cell"></div>
-      <div class="character_sprite grid-cell"></div>
-      <div class="character_name_container">
+characterElement.innerHTML = (`
+  <div class="character_body">
+    <div class="character_shadow grid-cell"></div>
+    <div class="character_sprite grid-cell"></div>
+    <div class="character_name_container">
       <span class="character_name"></span>
-      </div>
-      <div class="character_bubble"></div>
-      </div>
+    </div>
+  </div>
 `)
 
       playerElements[addedPlayer.id] = characterElement;

@@ -11,7 +11,7 @@ html, body {
     margin:0;
     padding:0;
     height:100%;
-    background: #415D43;
+    background: #2E2E3A; /* #415D43 */
     display:flex;
     justify-content: center;
     align-items: center;
@@ -23,7 +23,7 @@ html, body {
     position: relative;
     width: 240px;
     height: 208px;
-    background: #415D43;
+    background: #2E2E3A;
     transform: scale(3);
     image-rendering: pixelated;
 }
