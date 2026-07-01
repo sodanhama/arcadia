@@ -8,14 +8,16 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<div class="game-container"></div>
+    <div id="loading-screen">
+        <div class="loading-title">ARCADIA</div>
+    </div>
+    <div class="game-container"></div>
+    <div class="chat-log" id="chat-log"></div>
+    <div class="chat-input-container">
+        <input type="text" id="chat-input" placeholder="press t..." maxlength="200" autocomplete="off" />
+    </div>
 
-<div class="chat-log" id="chat-log"></div>
-<div class="chat-input-container">
-<input type="text" id="chat-input" placeholder="press t..." maxlength="200" autocomplete="off" />
-</div>
-
-<script type="module" src="/keyPressListener.js"></script>
-<script type="module" src="/app.js"></script>
+    <script type="module" src="/keyPressListener.js"></script>
+    <script type="module" src="/app.js"></script>
 </body>
 </html>

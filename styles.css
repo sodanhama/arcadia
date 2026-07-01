@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Figtree:ital,wght@0,300..900;1,300..900&family=Jersey+20&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 
-
-
 * {
     box-sizing: border-box;
 }
@@ -58,11 +56,6 @@ html, body {
     background-position-y: -64px;
 }
 
-
-.character_shadow {}
-
-.character_name {}
-
 .character_name_container {
       position: absolute;
   top: -12px;
@@ -91,8 +84,6 @@ html, body {
     width: 16px;
     height: 16px;
 }
-
-.you {}
 
 .character.you .character_name_container {
     border: 1px solid #f8dfff;
@@ -166,4 +157,25 @@ html, body {
   0%   { transform: translateY(0px); }
   50%  { transform: translateY(1px); }
   100% { transform: translateY(2px); }
+}
+
+#loading-screen {
+  position: fixed;
+  inset: 0;
+  background: #2E2E3A;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  transition: opacity 0.5s ease;
+}
+#loading-screen.loading-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.loading-title {
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 32px;
+  color: #fff;
+  letter-spacing: 4px;
 }

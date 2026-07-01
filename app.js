@@ -23,6 +23,33 @@ let playerRef
 let players = {}
 let playerElements = {}
 
+const loadingScreen = document.getElementById("loading-screen");
+let assetsLoaded = false;
+let authReady = false;
+let playersLoaded = false;
+
+function checkLoadingComplete() {
+  if (assetsLoaded && authReady && playersLoaded) {
+    loadingScreen?.classList.add("loading-hidden");
+    setTimeout(() => loadingScreen?.remove(), 500);
+  }
+}
+
+function preloadAssets() {
+  const sources = ["/assets/character.png", "/assets/bush.png"];
+  let loaded = 0;
+  sources.forEach((src) => {
+    const img = new Image();
+    img.onload = img.onerror = () => {
+      loaded++;
+      if (loaded === sources.length) {
+        assetsLoaded = true;
+        checkLoadingComplete();
+      }
+    };
+    img.src = src;
+  });
+}
 
 const firebaseConfig = {
   apiKey: "AIzaSyByyBdiCaouJ9AFsMVkKis2IXqDk-MHZmE",
@@ -43,7 +70,6 @@ const first = randomFromArray(["Sam", "Alex", "Charlie", "Jordan", "Taylor"]);
 const last = randomFromArray(["Smith", "Johnson", "Brown", "Taylor", "Anderson"]);
 const playerColors = ["red", "blue", "green", "yellow", "purple"];
 const gameContainer = document.querySelector(".game-container");
-
 
 signInAnonymously(auth).catch(console.error);
 
@@ -66,6 +92,8 @@ onAuthStateChanged(auth, (user) => {
 
     onDisconnect(playerRef).remove();
     console.log("Logged in as:", playerID);
+    authReady = true;
+    checkLoadingComplete();
   } else {
     console.log("Logged out");
   }
@@ -73,6 +101,7 @@ onAuthStateChanged(auth, (user) => {
 
 initGame();
 initChat();
+preloadAssets();
 function initChat() {
   const chatInput = document.getElementById("chat-input");
 
@@ -179,6 +208,11 @@ onValue(allPlayersRef, (snapshot) => {
       el.style.transform = `translate3d(${left}, ${top}, 0)`;
     }
   }); 
+
+  if (!playersLoaded) {
+    playersLoaded = true;
+    checkLoadingComplete();
+  }
 });
   onChildAdded(allPlayersRef, (snapshot) => {
     const addedPlayer = snapshot.val();
